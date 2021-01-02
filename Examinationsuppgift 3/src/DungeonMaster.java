@@ -37,6 +37,8 @@ public class DungeonMaster
 
    public static void endGame()
    {
+      System.out.println("You escaped with the treasure!");
+      System.exit(0);
    }
 
 }

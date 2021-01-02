@@ -3,13 +3,11 @@ import java.util.Scanner;
 
 public class Room
 {
-   private int xPos;
-   private int yPos;
    private String desc;
-   private Weapon sword = new Weapon("Sword","Increases damage by 10", false, 10);
-   private Key key = new Key("Key","Opens one door", true, true);
-   private Potion potion = new Potion("Potion","Restores health", true, true);
-   private Treasure treasure = new Treasure("Treasure","Wins the game", false, true);
+   private Weapon sword = new Weapon("Sword","Increases damage by 10", 10);
+   private Key key = new Key("Key", "Opens one door");
+   private Potion potion = new Potion("Potion","Restores health");
+   private Treasure treasure = new Treasure("Treasure","Wins the game");
    private Item item;
    private Door[] doors;
    private Monster monster;
@@ -139,34 +137,6 @@ public class Room
    {
      return item;  
    }
-
-
-
-   public int getyPos()
-   {
-      return yPos;
-   }
-
-
-   public void setyPos(int yPos)
-   {
-      this.yPos = yPos;
-   }
-
-
-   public int getxPos()
-   {
-      return xPos;
-   }
-
-
-   public void setxPos(int xPos)
-   {
-      this.xPos = xPos;
-   }
-
-
-
 
    public void setDoors(Door[] doors)
    {

@@ -1,23 +1,9 @@
 
 public class Key extends Item
 {
-   private boolean opensDoor;
-   public Key(String name, String desc, boolean consumable, boolean opensDoor)
+   public Key(String name, String desc)
    {
-      super(name, desc, consumable);
-      this.setOpensDoor(opensDoor);
-      
+      super(name, desc);   
    }
-   public boolean isOpensDoor()
-   {
-      return opensDoor;
-   }
-   public void setOpensDoor(boolean opensDoor)
-   {
-      this.opensDoor = opensDoor;
-   }
-
- 
-  
 
 }

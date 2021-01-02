@@ -3,13 +3,11 @@ public class Item
 {
    private String name;
    private String desc;
-   private boolean consumable;
    
-   public Item(String name, String desc, boolean consumable)
+   public Item(String name, String desc)
    {
       this.setName(name);
       this.setDesc(desc);
-      this.setConsumable(consumable);
    }
 
    public String getName()
@@ -32,15 +30,6 @@ public class Item
       this.desc = desc;
    }
 
-   public boolean isConsumable()
-   {
-      return consumable;
-   }
-
-   public void setConsumable(boolean consumable)
-   {
-      this.consumable = consumable;
-   }
 
 
    

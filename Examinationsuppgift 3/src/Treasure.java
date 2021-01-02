@@ -1,19 +1,9 @@
 
 public class Treasure extends Item
 {
-   private boolean winsGame;
-   public Treasure(String name, String desc, boolean consumable, boolean winsGame)
+   public Treasure(String name, String desc)
    { 
-         super(name, desc, consumable);
-         this.setWinsGame(winsGame);
+         super(name, desc);
+         
    }
-   public boolean isWinsGame()
-   {
-      return winsGame;
-   }
-   public void setWinsGame(boolean winsGame)
-   {
-      this.winsGame = winsGame;
-   }
-
 }

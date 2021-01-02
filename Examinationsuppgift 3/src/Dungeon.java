@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class Dungeon
 {
 
-    private static Room[][] rooms;
-    private static Player player;
+   private static Room[][] rooms;
+   private static Player player;
 
    public Dungeon(int dungeonSize, Player player)
    {
@@ -17,7 +17,7 @@ public class Dungeon
          {
             rooms[i][j] = new Room(i, j);
          }
-      }   
+      }
    }
 
    public static void playGame()
@@ -27,7 +27,6 @@ public class Dungeon
       int px = 1;
       int py = 0;
       Room currentRoom = rooms[px][py];
-      
 
       @SuppressWarnings("resource")
       Scanner userInput = new Scanner(System.in);
@@ -36,7 +35,7 @@ public class Dungeon
 
       while (true)
       {
-         
+
          String playerInput;
          boolean north = false;
          boolean south = false;
@@ -46,40 +45,43 @@ public class Dungeon
          boolean southLocked = false;
          boolean westLocked = false;
          boolean eastLocked = false;
-         
+
          Item[] inventory = player.getInventory();
          boolean playerHasPotion = false;
          boolean playerHasKey = false;
          boolean playerHasTreasure = false;
          Door[] doors = currentRoom.getDoors();
-         
-         //checks for doors in current room
+
+         // checks for doors in current room
          for (int i = 0; i < doors.length; i++)
          {
             if (doors[i].getPosition() == "w")
             {
-               if(doors[i].isLocked())westLocked = true;
+               if (doors[i].isLocked())
+                  westLocked = true;
                west = true;
             } else if (doors[i].getPosition() == "e")
             {
-               if(doors[i].isLocked())eastLocked = true;
+               if (doors[i].isLocked())
+                  eastLocked = true;
                east = true;
             } else if (doors[i].getPosition() == "s")
             {
-               if(doors[i].isLocked())southLocked = true;
+               if (doors[i].isLocked())
+                  southLocked = true;
                south = true;
             } else if (doors[i].getPosition() == "n")
             {
-               if(doors[i].isLocked())northLocked = true;
+               if (doors[i].isLocked())
+                  northLocked = true;
                north = true;
             }
          }
-         
-         
+
          player.displayInventory(inventory);
          AsciiArt.displayRoom(north, south, west, east);
-         
-         //checks for items in current room
+
+         // checks for items in current room
          if (currentRoom.getItem() != null)
          {
             System.out.println("you found an item!");
@@ -87,8 +89,17 @@ public class Dungeon
             System.out.println(currentRoom.getItem().getDesc());
             System.out.println("Do you want to pick up item? [p]");
          }
-         
-         //checks for monsters in current room
+
+         // checks for monsters in current room
+         if (currentRoom.getMonster() != null)
+         {
+            System.out.println("An monster appeared!");
+            Room.startFight();
+            currentRoom.setMonster(null);
+            player.displayInventory(inventory);
+            AsciiArt.displayRoom(north, south, west, east);
+         }
+
          if (currentRoom.getMonster() != null)
          {
             System.out.println("An monster appeared!");
@@ -98,126 +109,118 @@ public class Dungeon
             AsciiArt.displayRoom(north, south, west, east);
          }
          
-         if (currentRoom.getMonster() != null)
-         {
-            System.out.println("An monster appeared!");
-            Room.startFight();
-            currentRoom.setMonster(null);
-            player.displayInventory(inventory);
-            AsciiArt.displayRoom(north, south, west, east);
-         }
-         
+       
 
-
-         //input
+         // input
          boolean validInput = false;
          while (!validInput)
          {
 
-            //checks what items player has in inventory
-            for(int i = 0; i < player.getInventory().length; i++)
+            // checks what items player has in inventory
+            for (int i = 0; i < player.getInventory().length; i++)
             {
-               if(player.getInventory()[i] != null)
+               if (player.getInventory()[i] != null)
                {
-                  if(player.getInventory()[i].getName() == "Potion") playerHasPotion = true;
-                  else if(player.getInventory()[i].getName() == "Key") playerHasKey = true;
-                  else if(player.getInventory()[i].getName() == "Treasure") playerHasTreasure = true;
+                  if (player.getInventory()[i].getName() == "Potion")
+                     playerHasPotion = true;
+                  else if (player.getInventory()[i].getName() == "Key")
+                     playerHasKey = true;
+                  else if (player.getInventory()[i].getName() == "Treasure")
+                     playerHasTreasure = true;
                }
-               
-               
+
             }
             
-            if(playerHasPotion)
-               System.out.println("Press [h] to use potion");
-            
-         
-            
-            
-            System.out.print("Choose an action: ");
-            
-            playerInput = userInput.nextLine();
-            
+            if(px == 0 && py == 2)
+            {
+               if(playerHasTreasure)
+               {
+                  DungeonMaster.endGame(); 
+               }
+               else
+               {
+                  System.out.println("You found the exit! Retrieve the treasure before you escape.");
+               }
+            }
 
-        
+            if (playerHasPotion)
+               System.out.println("Press [h] to use potion");
+
+            System.out.print("Choose an action: ");
+
+            playerInput = userInput.nextLine();
 
             if (playerInput.equalsIgnoreCase("n") && north || playerInput.equalsIgnoreCase("s") && south)
             {
-               if(playerInput.equalsIgnoreCase("n") && northLocked || 
-                     playerInput.equalsIgnoreCase("s") && southLocked)
-               {            
-                  if(playerHasKey)
+               if (playerInput.equalsIgnoreCase("n") && northLocked || playerInput.equalsIgnoreCase("s") && southLocked)
+               {
+                  if (playerHasKey)
                   {
                      System.out.println("Used key and unlocked door");
                      doors = Door.unlockDoor(doors, playerInput);
                      currentRoom.setDoors(doors);
                      player.removeItem("Key");
                      validInput = true;
-                     
+
+                  } else
+                  {
+
+                     System.out.println("Door is locked!");
+                     validInput = true;
                   }
-                  else {
-                     
-                  System.out.println("Door is locked!");
-                  validInput = true;
-                  }
-               }
-               else 
+               } else
                {
                   py = updatePosition(py, playerInput);
                   validInput = true;
                }
-               
-            } 
-            else if (playerInput.equalsIgnoreCase("w") && west || playerInput.equalsIgnoreCase("e") && east)
+
+            } else if (playerInput.equalsIgnoreCase("w") && west || playerInput.equalsIgnoreCase("e") && east)
             {
-               if(playerInput.equalsIgnoreCase("w") && westLocked || 
-                     playerInput.equalsIgnoreCase("e") && eastLocked)
+               if (playerInput.equalsIgnoreCase("w") && westLocked || playerInput.equalsIgnoreCase("e") && eastLocked)
                {
-                  if(playerHasKey)
+                  if (playerHasKey)
                   {
                      System.out.println("Used key and unlocked door");
                      doors = Door.unlockDoor(doors, playerInput);
                      currentRoom.setDoors(doors);
                      player.removeItem("Key");
                      validInput = true;
-                     
+
+                  } else
+                  {
+
+                     System.out.println("Door is locked!");
+                     validInput = true;
                   }
-                  else {
-                     
-                  System.out.println("Door is locked!");
-                  validInput = true;
-               }
-               }
-               else 
+               } else
                {
-               px = updatePosition(px, playerInput);
-               validInput = true;
+                  px = updatePosition(px, playerInput);
+                  validInput = true;
                }
             } else if (playerInput.equalsIgnoreCase("p") && currentRoom.getItem() != null)
             {
                System.out.println("Picked up Item");
-               
+
                player.addItem(currentRoom.getItem());
                currentRoom.setItem(null);
                validInput = true;
-            }
-            else if(playerInput.equalsIgnoreCase("h") && playerHasPotion)
+            } else if (playerInput.equalsIgnoreCase("h") && playerHasPotion)
             {
                Player.setHealthPoints(100);
-               System.out.println("Your health is fully restored!");  
+               System.out.println("Your health is fully restored!");
                player.removeItem("Potion");
                validInput = true;
             }
-      
-            
+
             else
             {
                System.out.println("Invalid input, try again!");
             }
          }
-         
-         //updates currentRoom to the next room
+
+         // updates currentRoom to the next room
          currentRoom = rooms[px][py];
-         System.out.println("--------------------------------------------");
+         System.out.println("------------------------------");
       }
 
    }
