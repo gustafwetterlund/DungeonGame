@@ -8,8 +8,8 @@ public class DungeonMaster
 
    //player attributes
    private static  String playerName;
-   private static int playerHp = 10;
-   private static int playerDmg = 1;
+   private static int playerHp = 100;
+   private static int playerDmg = 10;
    private static Item[] inventory = new Item[4];
    
    
@@ -29,7 +29,6 @@ public class DungeonMaster
 
    public static void startGame()
    {
-      
       new Dungeon(DUNGEON_SIZE, new Player(playerName, playerHp, playerDmg, inventory));
       
       

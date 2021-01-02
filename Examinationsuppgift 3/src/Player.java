@@ -1,21 +1,27 @@
 
 public class Player
 {
-    private String name;
-    private int healthPoints;
-    private int damage;
+    private static String name;
+    private static int healthPoints;
+    private static int damage;
     private Item[] inventory;
 
    public Player(String name, int healthPoints, int damage, Item[]inventory)
    {
       this.setName(name);
-      this.setHealthPoints(healthPoints);
+      Player.setHealthPoints(healthPoints);
       this.setDamage(damage);
       this.inventory = inventory;
    }
 
    public Item[] addItem(Item item)
    {
+      
+      if(item.getName() == "Sword")
+      {
+         setDamage(getDamage() + Weapon.getIncreaseDamage());
+      }
+      
       for(int i =0; i < inventory.length; i++)
       {
          if(inventory[i] == null)
@@ -29,14 +35,19 @@ public class Player
       
    }
    
-   public Item[] removeItem(Item item)
+   public Item[] removeItem(String itemName)
    {
       for(int i =0; i < inventory.length; i++)
       {
-         if(inventory[i] == item)
+         
+         if(inventory[i] != null)
          {
-            inventory[i] = null;
+            if(inventory[i].getName() == itemName)
+            {
+               inventory[i] = null;
+            }
          }
+
       }
       return inventory;
       
@@ -67,27 +78,27 @@ public class Player
       return inventory;
    }
 
-   public int getDamage()
+   public static int getDamage()
    {
       return damage;
    }
 
    public void setDamage(int damage)
    {
-      this.damage = damage;
+      Player.damage = damage;
    }
 
-   public int getHealthPoints()
+   public static int getHealthPoints()
    {
       return healthPoints;
    }
 
-   public void setHealthPoints(int healthPoints)
+   public static void setHealthPoints(int healthPoints)
    {
-      this.healthPoints = healthPoints;
+      Player.healthPoints = healthPoints;
    }
 
-   public String getName()
+   public static String getName()
    {
       return name;
    }
