@@ -103,6 +103,7 @@ public class Dungeon
          {
             if(currentRoom.getMonster().getMonsterName().equals("The Legendary Dragon!"))
             {
+               AsciiArt.displayDragon();
                Room.dragonFight(currentRoom.getMonster());
                currentRoom.setMonster(null);
                System.out.println("You found the dragons treasure! Now you can exit the cave!");

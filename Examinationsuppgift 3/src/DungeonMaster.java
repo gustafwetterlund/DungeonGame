@@ -39,12 +39,15 @@ public class DungeonMaster
    {
       if(win)
       {
-         System.out.println("You escaped with the treasure!"); 
+         AsciiArt.displayTreasure();
+         System.out.println("You leave the dungeon with your riches. Congratulations, you won!"); 
       }
       else
       {
-         System.out.println("Better luck next time!");
+         System.out.println("Better luck next time!");     
       }
+      System.out.println("Press [ENTER] to end the game...");
+      userInput.nextLine();
       System.exit(0);
    }
 
