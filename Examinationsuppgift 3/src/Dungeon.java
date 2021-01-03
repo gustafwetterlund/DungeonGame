@@ -77,12 +77,20 @@ public class Dungeon
                north = true;
             }
          }
+         
+         if(px == 0 && py == 2)
+         {
+            AsciiArt.displayOutside();
+         }
+         else
+         {
+            player.displayInventory(inventory);
+            AsciiArt.displayRoom(north, south, west, east);
+         }
 
-         player.displayInventory(inventory);
-         AsciiArt.displayRoom(north, south, west, east);
 
          // checks for items in current room
-         if (currentRoom.getItem() != null)
+         if (currentRoom.getItem() != null && !currentRoom.getItem().getName().equals("Treasure"))
          {
             System.out.println("you found an item!");
             System.out.println(currentRoom.getItem().getName());
@@ -93,18 +101,20 @@ public class Dungeon
          // checks for monsters in current room
          if (currentRoom.getMonster() != null)
          {
-            System.out.println("An monster appeared!");
-            Room.startFight();
-            currentRoom.setMonster(null);
-            player.displayInventory(inventory);
-            AsciiArt.displayRoom(north, south, west, east);
-         }
-
-         if (currentRoom.getMonster() != null)
-         {
-            System.out.println("An monster appeared!");
-            Room.startFight();
-            currentRoom.setMonster(null);
+            if(currentRoom.getMonster().getMonsterName().equals("The Legendary Dragon!"))
+            {
+               Room.dragonFight(currentRoom.getMonster());
+               currentRoom.setMonster(null);
+               System.out.println("You found the dragons treasure! Now you can exit the cave!");
+               player.addItem(currentRoom.getItem());
+               currentRoom.setItem(null); 
+            }
+            else
+            {
+               Room.startFight(currentRoom.getMonster());
+               currentRoom.setMonster(null);
+            }
+            
             player.displayInventory(inventory);
             AsciiArt.displayRoom(north, south, west, east);
          }
@@ -135,11 +145,12 @@ public class Dungeon
             {
                if(playerHasTreasure)
                {
-                  DungeonMaster.endGame(); 
+                  DungeonMaster.endGame(true); 
                }
                else
                {
-                  System.out.println("You found the exit! Retrieve the treasure before you escape.");
+                  System.out.println("You found the exit! Retrieve the treasure before you escape. \n"
+                        + "Press [s] to go back into the cave");
                }
             }
 

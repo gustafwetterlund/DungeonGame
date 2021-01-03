@@ -54,7 +54,7 @@ public class Room
          this.getDoors()[0] = new Door("e",false);
          this.getDoors()[1] = new Door("n",false);
          this.getDoors()[2] = new Door("s",false);
-         this.setMonster(new Monster("Varulven", 1 , 10));
+         this.setMonster(new Monster("Random enemy", 10, 80));
       }
       //Room5
       if(xPos == 1 && yPos == 1)
@@ -89,6 +89,7 @@ public class Room
          this.setDesc("Dragon Room");
          this.getDoors()[0] = new Door("s",false);
          this.setItem(treasure);
+         this.setMonster(new Monster("The Legendary Dragon!",10,180));
       }
       //Room8
       if(xPos == 2 && yPos == 2)
@@ -149,9 +150,8 @@ public class Room
       return doors;
    } 
    
-   public static void startFight(){
-      Monster enemy = new Monster(null, 10, 80);
-      enemy.setMonsterName(enemy.monsterRandomizer());
+   public static void startFight(Monster enemy){
+    enemy.setMonsterName(enemy.monsterRandomizer());
       System.out.printf("Caution!%s appeared with %d HP! and %d damage!\n", enemy.getMonsterName(), enemy.getMonsterHp(),
             enemy.getMonsterDamage());
 
@@ -203,14 +203,73 @@ public class Room
          
 
       }
-      if (0 >= enemy.getMonsterHp())
+      if (0 >= enemy.getMonsterHp()  && 0 <= Player.getHealthPoints())
       {
          System.out.printf("You defeated the %s, after a glorious battle!\n", enemy.getMonsterName());
 
       } else
       {
          System.out.println("You died! Game over!");
+         DungeonMaster.endGame(false);
 
       }
    }
+   
+   public static void dragonFight(Monster dragon){ // Inte klar, ignorera tillsvidare.
+      
+      System.out.println("You suddenly feel a shiver up your spine, a great creature stirs....");
+      System.out.printf("\nYou can see the %s nearing you, this might be your final breath",dragon.getMonsterName());
+      System.out.printf("\nThe %s has %d HP and deals %d damage!",dragon.getMonsterName(),dragon.getMonsterHp(),dragon.getMonsterDamage());
+       while(dragon.getMonsterHp() > 0 && Player.getHealthPoints() > 0){
+
+       System.out.printf("\nPress F: to fight for your life against the %s!",dragon.getMonsterName());
+       Scanner input = new Scanner(System.in);
+       String val = input.nextLine();
+       
+       switch(val){
+           case "f":
+               
+       Random rand = new Random();
+       int randInt = rand.nextInt(100) + 1;
+       int monsterInt = rand.nextInt(100) +1;
+       
+       if(randInt <= 80){
+             dragon.monsterTakingDamage();
+            System.out.printf("You dealt: %d damage! %s has %d HP left!",Player.getDamage(),dragon.getMonsterName(),dragon.getMonsterHp());
+           }
+       else if(randInt > 80){
+           System.out.println("You missed your attack and dealt no damage!");
+       }
+       
+       
+       if(monsterInt <= 70 ){
+          Player.setHealthPoints(Player.getHealthPoints() - dragon.getMonsterDamage() );
+         System.out.printf("\n%s Cauterizing Flame dealt %d damage on you!",dragon.getMonsterName(),dragon.getMonsterDamage());
+       }
+       else if(monsterInt > 70){
+           System.out.println("You managed to dodge the dragons fireblast!\n You took no damage! ");
+       }
+            
+             System.out.println("\n*********************************************************************************");
+             System.out.printf("\n%s have %d HP left, and you (%s) have %d HP left!",dragon.getMonsterName(),dragon.getMonsterHp()
+                   ,Player.getName(),Player.getHealthPoints());
+            System.out.println("\n*********************************************************************************");
+            break;
+           
+           
+           default: 
+           System.out.println("Vänligen försök att skriva igen!");
+           continue;
+           
+       }
+     }
+      if(0 >= dragon.getMonsterHp() && 0 <= Player.getHealthPoints()){
+       System.out.printf("You defeated the %s, after a glorious battle!\n",dragon.getMonsterName());
+       
+       }
+     else{
+         System.out.println("You died! Game over!");
+         DungeonMaster.endGame(false);
+     }
+     }
 }

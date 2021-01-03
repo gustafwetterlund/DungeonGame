@@ -35,9 +35,16 @@ public class DungeonMaster
      
    }
 
-   public static void endGame()
+   public static void endGame(Boolean win)
    {
-      System.out.println("You escaped with the treasure!");
+      if(win)
+      {
+         System.out.println("You escaped with the treasure!"); 
+      }
+      else
+      {
+         System.out.println("Better luck next time!");
+      }
       System.exit(0);
    }
 

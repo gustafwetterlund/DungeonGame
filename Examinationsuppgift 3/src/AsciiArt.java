@@ -18,9 +18,23 @@ public class AsciiArt
    
 
    
+   
+   public static void displayOutside()
+   {
+      System.out.print("        _    .  ,   .           .\r\n" + 
+            "    *  / \\_ *  / \\_      _  *        *   /\\'__        *\r\n" + 
+            "      /    \\  /    \\,   ((        .    _/  /  \\  *'.\r\n" + 
+            " .   /\\/\\  /\\/ :' __ \\_  `          _^/  ^/    `--.\r\n" + 
+            "    /    \\/  \\  _/  \\-'\\      *    /.' ^_   \\_   .'\\  *\r\n" + 
+            "  /\\  .-   `. \\/     \\ /==~=-=~=-=-;.  _/ \\ -. `_/   \\\r\n" + 
+            " /  `-.__ ^   / .-'.--\\ =-=~_=-=~=^/  _ `--./ .-'  `-\r\n" + 
+            "/        `.  / /       `.~-^=-=~=^=.-'      '-._ `._\r\n" + 
+            "");
+   }
+   
    public static void displayRoom(boolean N, boolean S, boolean W, boolean E)
    {
- 
+    
     if(N)
     {
        System.out.print(
